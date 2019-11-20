@@ -19,9 +19,11 @@ Route::get('/', function () {
         ]);
 });
 
+
 Route::post('/task', function (Request $request) {
     $validator = Validator::make($request->all(), [
-        'name'=>'required|max:255'
+        'name'=>'required|max:255',
+        'text'=>'required|max:255'
         ]);
         
     if ($validator->fails()){
@@ -32,10 +34,20 @@ Route::post('/task', function (Request $request) {
     
     $task = new \App\Task;
     $task->name = $request->name;
+    $task->text = $request->text;
     $task->save();
     
     return redirect('/');
 });
+
+Route::post('/post/{task}', function (\App\Task $task) {
+    
+    return view('post', [
+        'task'=>$task
+        ]);
+    //return redirect('addpost');
+});
+
 
 Route::delete('/task/{task}', function (\App\Task $task) {
     $task->delete();
