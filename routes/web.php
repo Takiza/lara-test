@@ -13,21 +13,29 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
+    return view('welcome');
+});
+        
+Route::get('/tasks', function () {
     $tasks = \App\Task::orderBy('created_at', 'asc')->get();
     return view('tasks', [
         'tasks'=>$tasks
         ]);
 });
 
+Route::get('/tasks/post/{task}', function () {
+    return redirect('/tasks');
+});
 
-Route::post('/task', function (Request $request) {
+
+Route::post('/tasks/task', function (Request $request) {
     $validator = Validator::make($request->all(), [
         'name'=>'required|max:255',
         'text'=>'required|max:255'
         ]);
         
     if ($validator->fails()){
-        return redirect('/')
+        return redirect('/tasks')
         ->withInput()
         ->withErrors($validator);
     }
@@ -37,22 +45,21 @@ Route::post('/task', function (Request $request) {
     $task->text = $request->text;
     $task->save();
     
-    return redirect('/');
+    return redirect('/tasks');
 });
 
-Route::post('/post/{task}', function (\App\Task $task) {
+Route::post('/tasks/post/{task}', function (\App\Task $task) {
     
     return view('post', [
         'task'=>$task
         ]);
-    //return redirect('addpost');
 });
 
 
-Route::delete('/task/{task}', function (\App\Task $task) {
+Route::delete('/tasks/task/{task}', function (\App\Task $task) {
     $task->delete();
     
-    return redirect('/');
+    return redirect('/tasks');
 });
 
 Auth::routes();
