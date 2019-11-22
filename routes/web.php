@@ -27,7 +27,6 @@ Route::get('/tasks/post/{task}', function () {
     return redirect('/tasks');
 });
 
-
 Route::post('/tasks/task', function (Request $request) {
     $validator = Validator::make($request->all(), [
         'name'=>'required|max:255',
@@ -48,6 +47,32 @@ Route::post('/tasks/task', function (Request $request) {
     return redirect('/tasks');
 });
 
+Route::post('/tasks/edit-confirm', function (Request $request) {
+    $validator = Validator::make($request->all(), [
+        'name2'=>'required|max:255',
+        'text2'=>'required|max:255'
+        ]);
+        
+    if ($validator->fails()){
+        return redirect('/tasks')
+        ->withInput()
+        ->withErrors($validator);
+    }
+    
+    $tasks = \App\Task::orderBy('created_at', 'asc')->get();
+    
+    foreach ($tasks as $task){
+        if ($task->id == $request->id){
+            $task->name = $request->name2;
+            $task->text = $request->text2;
+            $task->save();
+            //return redirect('/');
+        }
+    }
+    
+    return redirect('/tasks');
+});
+
 Route::post('/tasks/post/{task}', function (\App\Task $task) {
     
     return view('post', [
@@ -55,6 +80,13 @@ Route::post('/tasks/post/{task}', function (\App\Task $task) {
         ]);
 });
 
+Route::post('/tasks/edit/{task}', function (\App\Task $task) {
+    $tasks = \App\Task::orderBy('created_at', 'asc')->get();
+    return view('tasks', [
+        'tasks'=>$tasks,
+        'edit'=>$task
+        ]);
+});
 
 Route::delete('/tasks/task/{task}', function (\App\Task $task) {
     $task->delete();

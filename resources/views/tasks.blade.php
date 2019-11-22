@@ -37,28 +37,65 @@
                 <div class="card  my-3">
                     <div class="card-body">
                         
-                        <h5 class="card-title">{{ $task->name }}</h5>
-                        
-                        <p class="card-text">{{ mb_strimwidth($task->text, 0, 30, "...") }}</p>
-                        
-                        <div class="d-flex flex-row justify-content-between">
+                        @if(!isset($edit) || $edit != $task)
+                            <h5 class="card-title">{{ $task->name }}</h5>
                             
-                            <form class="block" action="{{ url('tasks/post/'.$task->id) }}" method="POST">
-                                {{ csrf_field() }}
-                                <button class="btn btn-warning">
-                                    Read more
-                                </button>
-                            </form>
+                            <p class="card-text">{{ mb_strimwidth($task->text, 0, 30, "...") }}</p>
                             
-                            <form class="block" action="{{ url('tasks/task/'.$task->id) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                            
-                                <button class="btn btn-danger">
-                                    Delete
-                                </button>
+                            <div class="d-flex flex-row justify-content-between">
+                                
+                                <form class="block" action="{{ url('tasks/post/'.$task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <button class="btn btn-info">
+                                        Read more
+                                    </button>
+                                </form>
+                                
+                                <form class="block" action="{{ url('tasks/edit/'.$task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    <button class="btn btn-warning">
+                                        Edit
+                                    </button>
+                                </form>
+                                
+                                <form class="block" action="{{ url('tasks/task/'.$task->id) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                                
+                                    <button class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                            
+                        @elseif($edit == $task)
+                            
+                            <form class="block" action="{{ url('tasks/edit-confirm/') }}" method="POST">
+                                    {{ csrf_field() }}
+                                <h5 class="card-title">
+                                    <input type="text" name="name2" id="task-text" class="form-control" placeholder="Task name" value="{{ $task->name }}">
+                                </h5>
+                                
+                                <p class="card-text">
+                                    <input type="text" name="text2" id="task-text" class="form-control" placeholder="Task text" value="{{ $task->text }}" autofocus onfocus="var temp_value=this.value; this.value=''; this.value=temp_value">
+                                </p>
+                                
+                                <div class="d-flex flex-row justify-content-between">
+                                    
+                                    
+                                        <button name="id" class="btn btn-success" value="{{ $task->id }}">
+                                            Confirm
+                                        </button>
+                                    
+                                    
+                                    <form class="block" action="{{ url('tasks/')}}" method="GET">
+                                        <button class="btn btn-danger">
+                                            Cancel
+                                        </button>
+                               </form>
+                                </div>
                             </form>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
