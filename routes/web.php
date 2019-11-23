@@ -12,6 +12,9 @@
 */
 use Illuminate\Http\Request;
 
+
+Auth::routes(['verify' => true]);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,7 +24,7 @@ Route::get('/tasks', function () {
     return view('tasks', [
         'tasks'=>$tasks
         ]);
-});
+})->middleware('verified');
 
 Route::get('/tasks/post/{task}', function () {
     return redirect('/tasks');
