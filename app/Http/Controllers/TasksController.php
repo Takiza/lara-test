@@ -30,12 +30,6 @@ class TasksController extends Controller
         'text'=>'required|max:255'
         ]);
         
-        /*if ($validator->fails()){
-            return redirect('/tasks')
-            ->withInput()
-            ->withErrors($validator);
-        }*/
-        
         $task = new \App\Task;
         $task->name = $request->name;
         $task->text = $request->text;
@@ -65,12 +59,6 @@ class TasksController extends Controller
         'name2'=>'required|max:255',
         'text2'=>'required|max:255'
         ]);
-        
-    /*if ($validator->fails()){
-        return redirect('/tasks')
-        ->withInput()
-        ->withErrors($validator);
-    }*/
     
     $tasks = \App\Task::orderBy('created_at', 'asc')->get();
     
