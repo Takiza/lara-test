@@ -24,17 +24,17 @@ class TasksController extends Controller
     }
     
     
-    public function addTask(){
-        $validator = Validator::make($request->all(), [
+    public function addTask(Request $request){
+        $validator = $request->validate([
         'name'=>'required|max:255',
         'text'=>'required|max:255'
         ]);
         
-        if ($validator->fails()){
+        /*if ($validator->fails()){
             return redirect('/tasks')
             ->withInput()
             ->withErrors($validator);
-        }
+        }*/
         
         $task = new \App\Task;
         $task->name = $request->name;
@@ -60,17 +60,17 @@ class TasksController extends Controller
         }
     
     
-    public function editConfirm($request){
-        $validator = Validator::make($request->all(), [
+    public function editConfirm(Request $request){
+        $validator = $request->validate([
         'name2'=>'required|max:255',
         'text2'=>'required|max:255'
         ]);
         
-    if ($validator->fails()){
+    /*if ($validator->fails()){
         return redirect('/tasks')
         ->withInput()
         ->withErrors($validator);
-    }
+    }*/
     
     $tasks = \App\Task::orderBy('created_at', 'asc')->get();
     
