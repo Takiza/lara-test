@@ -3,13 +3,21 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Lara</title>
+        
+        
+
+        <!-- Scripts -->
+        <script src="{{ asset('public/js/app.js') }}" defer></script>
 
         <!-- Fonts -->
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -85,7 +93,17 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://takiza.net/lara/tasks">Tasks</a>
+                    <a href="https://takiza.net/08resume">Resume</a>
+                    <a href="https://takiza.net/lara/tasks">Tasks Manager</a>
+                    
+                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">Games
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="https://takiza.net/games/who-i-am/">Who I Am?</a>
+                        <a class="dropdown-item" href="https://takiza.net/games/space-shooter-2">Space Shooter</a>
+                        <a class="dropdown-item" href="https://takiza.net/games/wheel-quiz/">Wheel Quiz</a>
+                    </div>
+                            
                     <a href="https://github.com/takiza/lara-test">GitHub</a>
                 </div>
             </div>
